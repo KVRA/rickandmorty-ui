@@ -4,6 +4,9 @@ module.exports = {
     dirs: ['src'],
   },
 
+  images: {
+    domains: ['rickandmortyapi.com'],
+  },
   reactStrictMode: true,
 
   // Uncoment to add domain whitelist

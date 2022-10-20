@@ -1,10 +1,10 @@
+import Image from 'next/image';
 import * as React from 'react';
 
+import { getCharacters } from '@/lib/repositories/rickyandmortyapi';
+import { ApiResponseCharacters, Character } from '@/lib/types/rickyandmortyapi';
+
 import Layout from '@/components/layout/Layout';
-import ArrowLink from '@/components/links/ArrowLink';
-import ButtonLink from '@/components/links/ButtonLink';
-import UnderlineLink from '@/components/links/UnderlineLink';
-import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 
 /**
@@ -14,13 +14,16 @@ import Seo from '@/components/Seo';
  * You can override the next-env if the type is important to you
  * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
  */
-import Vercel from '~/svg/Vercel.svg';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
-export default function HomePage() {
+export default function HomePage({
+  characters: characters,
+}: {
+  characters: ApiResponseCharacters;
+}) {
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -28,47 +31,48 @@ export default function HomePage() {
 
       <main>
         <section className='bg-white'>
-          <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
-            <Vercel className='text-5xl' />
-            <h1 className='mt-4'>
-              Next.js + Tailwind CSS + TypeScript Starter
-            </h1>
-            <p className='mt-2 text-sm text-gray-800'>
-              A starter for Next.js, Tailwind CSS, and TypeScript with Absolute
-              Import, Seo, Link component, pre-configured with Husky{' '}
-            </p>
-            <p className='mt-2 text-sm text-gray-700'>
-              <ArrowLink href='https://github.com/theodorusclarence/ts-nextjs-tailwind-starter'>
-                See the repository
-              </ArrowLink>
-            </p>
-
-            <ButtonLink className='mt-6' href='/components' variant='light'>
-              See all components
-            </ButtonLink>
-
-            <UnstyledLink
-              href='https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Ftheodorusclarence%2Fts-nextjs-tailwind-starter'
-              className='mt-4'
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                width='92'
-                height='32'
-                src='https://vercel.com/button'
-                alt='Deploy with Vercel'
-              />
-            </UnstyledLink>
-
-            <footer className='absolute bottom-2 text-gray-700'>
-              © {new Date().getFullYear()} By{' '}
-              <UnderlineLink href='https://theodorusclarence.com?ref=tsnextstarter'>
-                Theodorus Clarence
-              </UnderlineLink>
-            </footer>
+          <h1 className='my-12 text-center font-light uppercase'>Characters</h1>
+          <div className='flex flex-wrap'>
+            {characters.results.map((character) => (
+              <CharacterCard character={character} key={character.id} />
+            ))}
           </div>
         </section>
       </main>
     </Layout>
   );
+}
+function CharacterCard({ character }: { character: Character }) {
+  return (
+    <div
+      key={character.id}
+      className='m-2 flex min-h-[12em] w-44 flex-col items-center rounded-xl bg-gradient-to-b from-[#232526] to-[#414345] px-2 py-2'
+    >
+      <div className='relative h-36 w-36'>
+        <Image
+          src={character.image}
+          alt='Picture of the author'
+          layout='fill' // required
+          objectFit='cover'
+          className='rounded-full'
+        />
+      </div>
+      <h2 className='pt-2 text-center text-xl font-semibold text-white'>
+        {character.name}
+      </h2>
+      <p className='text-center  text-sm text-muted'>
+        {character.location.name}
+      </p>
+    </div>
+  );
+}
+
+// server side props
+export async function getServerSideProps() {
+  // fetch data from an API
+  const res = await getCharacters();
+  const characters = await res.data;
+
+  // Pass data to the page via props
+  return { props: { characters } };
 }
