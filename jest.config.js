@@ -15,7 +15,8 @@ const customJestConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/'],
 
   testEnvironment: 'jest-environment-jsdom',
-
+  // ignore data file
+  testPathIgnorePatterns: ['data.ts'],
   /**
    * Absolute imports and Module Path Aliases
    */

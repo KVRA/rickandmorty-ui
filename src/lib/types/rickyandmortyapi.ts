@@ -10,7 +10,7 @@ export interface Location {
   dimension: string;
   residents: string[];
   url: string;
-  created: Date;
+  created: string;
 }
 
 export type ApiResponseCharacterById = Character;
@@ -29,12 +29,12 @@ export interface Character {
   species: Species;
   type: string;
   gender: Gender;
-  origin: Location;
-  location: Location;
+  origin: LocationFromCharacter;
+  location: LocationFromCharacter;
   image: string;
   episode: string[];
   url: string;
-  created: Date;
+  created: string;
 }
 
 export enum Gender {
@@ -43,7 +43,7 @@ export enum Gender {
   Unknown = 'unknown',
 }
 
-export interface Location {
+export interface LocationFromCharacter {
   name: string;
   url: string;
 }
