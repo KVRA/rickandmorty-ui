@@ -75,8 +75,7 @@ export function CharacterCard({ character }: { character: Character }) {
 // server side props
 export async function getServerSideProps() {
   // fetch data from an API
-  const characters = await getCharacters();
-
+  const apiresponse = await getCharacters();
   // Pass data to the page via props
-  return { props: { characters } };
+  return { props: { characters: apiresponse.data } };
 }

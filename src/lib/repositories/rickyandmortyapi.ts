@@ -1,12 +1,11 @@
 import axiosClient from '@/lib/axios';
 import {
   ApiResponseCharacterById,
-  ApiResponseCharacters,
   Character,
   Location,
 } from '@/lib/types/rickyandmortyapi';
 
-export async function getCharacters(): Promise<ApiResponseCharacters> {
+export async function getCharacters() {
   return await axiosClient.get('/character/');
 }
 // TODO: check the graphql for a query including character and same planet characters
