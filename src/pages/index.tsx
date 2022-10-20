@@ -6,6 +6,7 @@ import { ApiResponseCharacters, Character } from '@/lib/types/rickyandmortyapi';
 
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
+import CharacterModal from '@/components/ui/CharacterModal';
 
 /**
  * SVGR Support
@@ -32,9 +33,13 @@ export default function HomePage({
       <main>
         <section className='bg-white'>
           <h1 className='my-12 text-center font-light uppercase'>Characters</h1>
-          <div className='flex flex-wrap'>
+          <div className='flex flex-wrap '>
             {characters.results.map((character) => (
-              <CharacterCard character={character} key={character.id} />
+              <CharacterModal character={character} key={character.id}>
+                <div className='m-2'>
+                  <CharacterCard character={character} />
+                </div>
+              </CharacterModal>
             ))}
           </div>
         </section>
@@ -42,11 +47,11 @@ export default function HomePage({
     </Layout>
   );
 }
-function CharacterCard({ character }: { character: Character }) {
+export function CharacterCard({ character }: { character: Character }) {
   return (
     <div
       key={character.id}
-      className='m-2 flex min-h-[12em] w-44 flex-col items-center rounded-xl bg-gradient-to-b from-[#232526] to-[#414345] px-2 py-2'
+      className='flex min-h-[18em] w-44 flex-col items-center rounded-xl bg-gradient-to-b from-[#232526] to-[#414345] px-2 py-2'
     >
       <div className='relative h-36 w-36'>
         <Image
@@ -57,7 +62,7 @@ function CharacterCard({ character }: { character: Character }) {
           className='rounded-full'
         />
       </div>
-      <h2 className='pt-2 text-center text-xl font-semibold text-white'>
+      <h2 className='pt-2 text-center text-xl font-semibold uppercase text-white'>
         {character.name}
       </h2>
       <p className='text-center  text-sm text-muted'>

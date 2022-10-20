@@ -25,7 +25,7 @@ module.exports = {
         },
         dark: '#222222',
         // tailwind slate-400
-        muted: '#718096',
+        muted: '#cbd5e1',
       },
       keyframes: {
         flicker: {
